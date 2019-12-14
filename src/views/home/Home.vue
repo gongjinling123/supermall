@@ -38,10 +38,12 @@ import NavBar from "components/common/navbar/NavBar";
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
-import BackTop from 'components/content/backTop/BackTop'
+// import BackTop from 'components/content/backTop/BackTop'
+
+import {itemListerMixin,backTopMixin} from 'components/common/mixin'
 
 import { getHomeMultidata, getHomeGoods } from "network/home";
-import {debounce} from 'common/utils'
+// import {debounce} from 'common/utils'
 
 export default {
   data() {
@@ -55,11 +57,12 @@ export default {
       },
     //   默认渲染 pop 流行页面的数据
       currentType:'pop',
-      isShow:false,
+      // isShow:false,
       isLoad:false,
       isFixedTop:false,
       controlTop:0,
-      saveY:0
+      saveY:0,
+      itemImgLister:null
     };
   },
   components: {
@@ -69,8 +72,7 @@ export default {
     NavBar,
     TabControl,
     GoodsList,
-    Scroll,
-    BackTop
+    Scroll
   },
   computed:{
       showGoods(){
@@ -86,6 +88,9 @@ export default {
   },
   deactivated(){
     this.saveY=this.$refs.scroll.getScrollY()
+
+    // 取消全局时间监听
+    this.$bus.$off('itemImageLoad',this.itemImgLister)
   },
   created() {
     //   请求更多数据
@@ -95,14 +100,6 @@ export default {
     this.HomeGoods("pop");
     this.HomeGoods("new");
     this.HomeGoods("sell");
-
-  },
-  mounted(){
-    // 监听图片加载
-    const refresh=debounce(this.$refs.scroll.refresh,200)
-    this.$bus.$on('itemImageLoad',()=>{
-      refresh()
-    })
 
   },
   methods: {
@@ -126,10 +123,7 @@ export default {
         this.$refs.tabControl1.currentIndex=index
         this.$refs.tabControl2.currentIndex=index
       },
-      backTop(){
-        // this.$refs.scroll  获取ref="scroll"的元素 就可以调用该元素的所有方法
-        this.$refs.scroll.scrollTo(0,0)
-      },
+      
       contentScroll(position){
         // 监听返回顶部
         this.isShow=(-position.y) > 1000
@@ -145,7 +139,7 @@ export default {
           this.isLoad=true
         }
       },
-    /**
+    /** 
      * 网络请求相关的方法
      */
     HomeMultidata() {
@@ -163,7 +157,8 @@ export default {
         this.$refs.scroll.finishPullUp()
       });
     }
-  }
+  },
+ mixins:[itemListerMixin,backTopMixin],
 };
 </script>
 

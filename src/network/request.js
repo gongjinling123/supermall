@@ -1,11 +1,14 @@
 import axios from 'axios'
 
+const url1='http://123.207.32.32:8000/api/v2'
+const url2='http://106.54.54.237:8000/api/v1'
+
 export function request(config){
     const instance=axios.create({
         // URL1:'http://123.207.32.32:8000/api/v2',
         // URL2:'http://106.54.54.237:8000/api/v1',
-        baseURL: 'http://123.207.32.32:8000/api/v2',
-        timeout:5000
+        baseURL: url1 || url2,
+        timeout:10000
     })
 
     // 拦截器
