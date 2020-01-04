@@ -42,7 +42,7 @@ import Scroll from "components/common/scroll/Scroll";
 
 import {itemListerMixin,backTopMixin} from 'components/common/mixin'
 
-import { getHomeMultidata, getHomeGoods } from "network/home";
+import { getHomeMultidata, getHomeGoods } from "network/home"; 
 // import {debounce} from 'common/utils'
 
 export default {
@@ -84,7 +84,7 @@ export default {
   },
   activated(){
     this.$refs.scroll.scrollTo(0,this.saveY,0)
-    this.$refs.scroll.refresh()
+    this.$refs.scroll.refresh() 
   },
   deactivated(){
     this.saveY=this.$refs.scroll.getScrollY()

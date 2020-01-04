@@ -71,7 +71,7 @@ export default {
         },
         getSubcategory(key,index){
             getSubcategory(key).then(res=>{
-                console.log(res.data.list)
+                // console.log(res.data.list)
                 this.dataList[index]=res.data.list
                 if(this.dataList.length>1){
                     this.subcategorys=this.dataList[index]

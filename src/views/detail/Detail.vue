@@ -14,6 +14,7 @@
     </scroll>
     <detail-botton-bar @addToCart="addToCart"/>
     <back-top @click.native="backTop" v-show="isShow" /> 
+
   </div>
 </template> 
  
@@ -31,6 +32,7 @@ import Scroll from "components/common/scroll/Scroll";
 import GoodsList from "components/content/goods/GoodsList"; 
 // import {debounce} from "components/common/utils"
 import { itemListerMixin ,backTopMixin} from "components/common/mixin";
+
 
 import {mapActions} from 'vuex'
 
@@ -79,8 +81,10 @@ export default {
     // 2、根据ID请求数据
     getDetail(this.iid).then(res => {
         console.log(res);
-      //    获取顶部轮播图数据
+        console.log(res.result.skuInfo.skus)
+      
       const data = res.result;
+      //    获取顶部轮播图数据
       this.topImages = data.itemInfo.topImages;
       // 或取商品信息
       this.Goods = new Goods(
@@ -97,13 +101,15 @@ export default {
         data.itemParams.info,
         data.itemParams.rule
       );
+
+
       // 当有评论信息时获取商品评论
       if (data.rate.cRate !== 0) {
         this.Commond = new GoodsCommond(data.rate.list[0]);
       }
     });
 
-    // 3、推荐信息
+    // 3、推荐信息 
     getRecommend().then(res => {
       this.recommend = res.data.list;
     });
@@ -149,6 +155,7 @@ export default {
     },
     addToCart(){
       // 1.获取购物车需要展示的信息
+      console.log('加入到购物车')
       const product={}
       product.image=this.topImages[0]
       product.title=this.Goods.title
@@ -175,7 +182,7 @@ export default {
 
 <style scoped>
 #detail {
-  position: relative;
+  position: relative; 
   z-index: 99;
   background-color: #fff;
   height: 100vh;
