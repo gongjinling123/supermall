@@ -5,9 +5,7 @@ import axios from 'axios'
 
 export function request(config){
     const instance=axios.create({
-        // URL1:'http://123.207.32.32:8000/api/w2',
-        // URL2:'http://106.54.54.237:8000/api/w1',
-        baseURL: 'http://106.54.54.237:8000/api/w1',
+        baseURL: 'http://123.207.32.32:8000/api/m3',
         timeout:10000
     })
 
